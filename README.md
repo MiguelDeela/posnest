@@ -130,3 +130,170 @@ Nest is an MIT-licensed open source project. It can grow thanks to the sponsors 
 ## License
 
 Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
+
+---
+<br>
+<br>
+<br>
+<br>
+<br>
+
+<h1 align="center">NestJS con NPX</h1>
+
+Quick command reference to create and manage NestJS projects locally without installing the CLI globally.
+
+---
+
+## Installation & Project Setup
+
+* **Create a new project in a new folder:**
+  ```bash
+  # Install NestJS with npx
+  $ npx @nestjs/cli new project-name
+  ```
+
+* **Create a new project in the current directory:**
+  ```bash
+  # Install nestjs in current directory
+  $ npx @nestjs/cli new .
+  ```
+
+---
+
+## Generating Files (Schematics)
+
+Running `npx nest` executes the local version installed inside your project's `node_modules``
+
+## Complete Resource (CRUD)
+
+Automatically generates the module, controller, service, and DTOs:
+
+* **Generate a resource with test files (`.spec.ts`):**
+  ```bash
+  npx nest generate resource resource-name
+
+  #Shorthand
+  npx nest g res resource-name
+  ```
+
+* **Generate a resource without test files:**
+  ```bash
+  npx nest generate resource resource-name --no-spec
+
+  #Shorthand:
+  npx nest g res resource-name --no-spec
+  ```
+
+  ### Individual Building Blocks
+  When you only need to generate a specific piece:
+
+* **Generate a module:**
+  ```bash
+  npx nest g module module-name
+  ```
+
+* **Generate a controller (without tests):**
+  ```bash
+  npx nest g controller controller-name --no-spec
+  ```
+
+* **Generate a service (without tests):**
+  ```bash
+  npx nest g service service-name --no-spec
+  ```
+
+---
+
+## Running the Application
+
+Pre-configured scripts in `package.json` to run your app:
+
+* **Development mode (watch mode with auto-reload):**
+  ```bash
+  npm run start:dev
+  ```
+
+* **Standard mode:**
+  ```bash
+  npm run start
+  ```
+
+* **Production mode:**
+  ```bash
+  npm run start:prod
+  ```
+
+---
+
+## Validation & Transformation
+
+Install `class-validator` and `class-transformer` to validate incoming request payloads (DTOs):
+
+* **Install dependencies:**
+  ```bash
+  npm install class-validator class-transformer
+  ```
+
+* **Enable global validation in `src/main.ts`:**
+  ```typescript
+  import { ValidationPipe } from '@nestjs/common';
+  import { NestFactory } from '@nestjs/core';
+  import { AppModule } from './app.module';
+
+  async function bootstrap() {
+    const app = await NestFactory.create(AppModule);
+
+    // Configure global request validation Pipes
+    // Set up global ValidationPipe to validate and strip unallowed properties
+    app.useGlobalPipes(
+      new ValidationPipe({
+        whitelist: true,
+        // Not implemented yet
+        forbidNonWhitelisted: true,
+      }),
+    );
+
+    await app.listen(3000);
+  }
+  await bootstrap();
+  ```
+
+---
+
+## Database Integration (TypeORM)
+
+Install TypeORM and the required database driver:
+
+* **For PostgreSQL:**
+  ```bash
+  npm install @nestjs/typeorm typeorm pg
+  ```
+
+* **For MySQL / MariaDB:**
+  ```bash
+  npm install @nestjs/typeorm typeorm mysql2
+  ```
+
+* **Configure connection in `src/app.module.ts`:**
+  ```typescript
+  import { Module } from '@nestjs/common';
+  import { TypeOrmModule } from '@nestjs/typeorm';
+
+  @Module({
+    imports: [
+      TypeOrmModule.forRoot({
+        type: 'postgres', // or 'mysql'
+        host: 'localhost',
+        port: 5432, // 3306 for MySQL
+        username: 'your_username',
+        password: 'your_password',
+        database: 'your_database',
+        autoLoadEntities: true,
+        synchronize: true, // Set to false in production
+      }),
+    ],
+  })
+  export class AppModule {}
+  ```
+
+---
