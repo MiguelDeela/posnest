@@ -297,3 +297,23 @@ Install TypeORM and the required database driver:
   ```
 
 ---
+
+## Environment Variables (`@nestjs/config`)
+
+Install `@nestjs/config` to load environment variables from a `.env` file:
+
+* **Install dependency:**
+  ```bash
+  npm install @nestjs/config
+  ```
+
+* **Create a `.env` file in the root directory:**
+  ```env
+  DATABASE_HOST=localhost
+  DATABASE_PORT=5432
+  DATABASE_USERNAME=your_username
+  DATABASE_PASSWORD=your_password
+  DATABASE_NAME=your_database
+  ```
+
+---

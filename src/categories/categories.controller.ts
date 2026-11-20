@@ -9,6 +9,8 @@ export class CategoriesController {
 
   @Post()
   create(@Body() createCategoryDto: CreateCategoryDto) {
+
+    console.log(process.env.DATABASE_USERNAME);
     return this.categoriesService.create(createCategoryDto);
   }
 
